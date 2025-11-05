@@ -1,78 +1,60 @@
 AI/ML Intermediate Project
 # Sentiment Analysis of Social Media
 
-## Project Overview
-This project builds a Fake News Detection System trained on a dataset containing real and fake news articles. It uses TF-IDF vectorization and a Logistic Regression or Naive Bayes classifier to analyze the textual patterns of news content. The system is deployed with Streamlit for easy interaction — users can enter a news statement and instantly see if it’s fake or real, along with a confidence score.
+## Overview
+This project focuses on analyzing the sentiment of social media posts using Natural Language Processing (NLP) and Machine Learning (ML) techniques. The model classifies text data into three sentiment categories: Positive, Negative, and Neutral. This allows users to understand the general sentiment trends in social media data and can be extended for applications like brand monitoring, public opinion analysis, and online reputation management.
 
-## Key Features
-- Text preprocessing with cleaning, stopword removal, and lemmatization
-- TF-IDF vectorization for feature extraction
-- Model trained to achieve around 98–99% accuracy
-- Streamlit web interface for real-time predictions
-- Confidence score displayed for each prediction
-- Automatically loads a trained model (or trains one if not found)
+## Dataset
+The dataset used in this project is the **Social Media Sentiments Analysis Dataset** from Kaggle. It contains real-world social media posts with various emotion and sentiment labels. 
+Link : https://www.kaggle.com/datasets/kashishparmar02/social-media-sentiments-analysis-dataset
+We did not download additional datasets manually for model training; instead, we cleaned and simplified the provided dataset by:
+- Removing unnecessary columns (like timestamps, hashtags, etc.)
+- Simplifying the sentiment labels to three categories: **Positive**, **Negative**, and **Neutral**
+- Cleaning text by removing special characters, URLs, emojis, and extra spaces
 
-## Why Some True Statements Are Flagged as Fake
-Short or overly simple sentences such as "Donald Trump is a president of America" may be predicted as fake because the model was trained mostly on full-length news articles. It assumes "fake" when:
-- The text resembles clickbait or incomplete statements seen in fake samples
-- The statement lacks journalistic context such as sources or structure
-- The model detects political figure mentions that often correlated with fake news in the dataset
+After preprocessing, the data was balanced and split for training and testing.
 
-To improve predictions, provide more context. For example:
-"Donald Trump served as the 45th President of the United States, according to official records."
-This provides linguistic structure and facts, which help the model classify more accurately.
+## Project Workflow
+1. **Data Loading and Exploration**
+   - Loaded the dataset into a pandas DataFrame.
+   - Explored structure, column names, and missing values.
 
-## Tech Stack
-- Python 3
-- Pandas, NumPy
-- NLTK (for stopwords and lemmatization)
-- Scikit-learn (for TF-IDF and model training)
-- Streamlit (for deployment)
-- Joblib (for saving/loading models)
+2. **Data Cleaning and Preprocessing**
+   - Removed duplicate and unnecessary columns.
+   - Normalized sentiment labels to a simplified format.
+   - Cleaned the text using regular expressions (removing links, punctuation, symbols, etc.).
 
-## Dataset 
-link : https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset
+3. **Feature Extraction**
+   - Used TF-IDF (Term Frequency–Inverse Document Frequency) to convert text into numerical vectors suitable for ML models.
 
-## Folder Structure
-Fake-News-Detection/
-│
-├── fake_news_detection.ipynb   # Model training and evaluation
-├── app.py                      # Streamlit application
-├── vectorizer.pkl              # Saved TF-IDF vectorizer
-├── model.pkl                   # Saved ML model
-├── true.csv                    # True news dataset
-├── fake.csv                    # Fake news dataset
-└── README.md                   # Project documentation
+4. **Model Building**
+   - Implemented a **Logistic Regression** classifier using scikit-learn.
+   - Trained on 80% of the dataset and tested on the remaining 20%.
 
-## How to Run
-1. Install dependencies
-   pip install -r requirements.txt
+5. **Model Evaluation**
+   - Achieved approximately **71% accuracy** on test data.
+   - Evaluated using classification metrics such as precision, recall, and F1-score.
+   - Visualized performance using a confusion matrix.
 
-2. Run the Streamlit app
-   streamlit run app.py
+6. **Gradio App Integration**
+   - Added an interactive interface using **Gradio**, allowing users to type or paste a social media post and instantly get the predicted sentiment.
+   - The interface provides:
+     - A text box for user input.
+     - Real-time prediction with confidence percentage.
+   - Gradio was chosen because it provides a fast and user-friendly way to deploy ML models for demonstrations and testing without complex backend setup.
 
-3. Interact with the app  
-   Enter any news content and click "Check News" to get:
-   - Real or Fake label
-   - Confidence percentage
+## How It Works
+- User enters a social media post in the Gradio interface.
+- The text is cleaned, vectorized using TF-IDF, and passed to the trained Logistic Regression model.
+- The model predicts whether the post is Positive, Negative, or Neutral.
+- The result is displayed instantly with confidence level.
 
-## Model Performance
-Accuracy: 98.8%  
-Precision: 0.99  
-Recall: 0.99  
-F1-score: 0.99  
-
-## Example Predictions
-Input: "The U.S. Senate passed a new infrastructure bill on Tuesday."  
-Output: Real News (Confidence: 97%)
-
-Input: "NASA confirms Earth will go dark for 15 days next month."  
-Output: Fake News (Confidence: 99%)
-
-## Future Improvements
-- Add multiple ML models for comparison
-- Include article source verification
-- Integrate live fact-checking API
+## Installation and Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/social-media-sentiment-analysis.git
+   cd social-media-sentiment-analysis
+   ```
 
 ## Contributing
 Contributions are welcome!
